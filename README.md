@@ -81,16 +81,26 @@ Currently there is 1 authentication flow that is fully implemented with more pla
 
 ## Directory structure
 
-- bundler
-  - The bundler submits the transactions on behalf of the user
-  - Extra features: pregenerate wallets,
-- contracts
-  - Contain the smart contracts, including: `smart-account.clar`, `smart-account-factory.clar`, `safe.clar`, `authenticate.clar` and `256-lib/*.clar`
-  - [WIP] A contarct to verify `secp256r1` signatures on-chain
-- frontend
-  - An interface to manage your accounts
-- sdk
-  - An sdk to implement the authentication and transactions
+Directory Structure
+
+- **bundler**  
+  Handles transaction submission on behalf of the user.  
+  _Extra feature:_ Pre-generates wallets.
+
+- **contracts**  
+  Contains smart contracts, including:
+
+  - `smart-account.clar`
+  - `smart-account-factory.clar`
+  - `safe.clar`
+  - `authenticate.clar`
+  - `256-lib/*.clar` including a contract to verify secp256r1 signatures on-chain.
+
+- **frontend**  
+  User interface for managing accounts.
+
+- **sdk**  
+  SDK for authentication and transaction implementation.
 
 ## How to run
 
@@ -114,14 +124,3 @@ cd contracts
 yarn
 yarn run dev
 ```
-
-<!-- TODO
-  1. Implement passkeys encryption/decryption and use secp256k1 to validate signature
-  2. Minimal account abstraction, maybe a simple NFT transfer example
-  3. Auth provider on the frontend: https://chatgpt.com/c/67d345c2-1424-8004-8f3c-d6f5cd2843de, https://react.dev/reference/react/useContext
-  4. Modal for authentication
-  5. Session for each sub-account
-  6. EOA w/ social recovery
-  7. Record video
-  8. (BONUS) Verify passkey on-chain
- -->
