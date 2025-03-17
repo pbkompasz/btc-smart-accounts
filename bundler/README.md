@@ -1,6 +1,25 @@
+# Bundler
+
+
+This package provides an API that frontends can use to read blockchain data, authenticate and send transactions.
+Available API endpoints:
+
+`POST /authenticate/init`  
+  Initiate an account authentication session. The bundler fetches or creates a user record and returns a salt, which users use to create the authentication key.
+
+`POST /authenticate`
+  Authenticate a user and optionally request a new session key for a sub-account.
+
+`POST /call`
+  Submit any transaction to the blockchain. The message has to contain a valid signature, the account that submits the transaction and the transaction information in SIP-005 compatible serialization.
+
 # Create T3 App
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+
+The bundler is a component that is used by the service provider manage the accounts.
+It receives operations and submits them on behalf of a user.
+From here you can pregenrate accounts for a user.
 
 ## What's next? How do I make an app with this?
 
