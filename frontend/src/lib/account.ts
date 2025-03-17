@@ -4,7 +4,6 @@ import { Session } from "./session";
 import { sendRequestToBundler } from "./bundlerInterface";
 import { createCredential, derivePrivateKey } from "./authentication";
 
-type AccountSession = {};
 type AccountConfig = {};
 
 type SubAccountType = "permanent" | "temporary";
