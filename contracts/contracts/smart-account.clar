@@ -142,7 +142,7 @@
     (if (or (is-eq (var-get sub-accounts-count) 0) (is-eq (var-get sub-accounts-count) (var-get first-valid-sub-account)))
       (begin 
         ;; Create a new sub-account if none is available
-        ;; TODO Wtf?
+        ;; TODO Wtf? expecting expression of type 'list', 'buff', 'string-ascii' or 'string-utf8' - found '(string-ascii 11)'
         ;; (unwrap! (creates-sub-account (concat "sub-accoun-" (var-get first-valid-sub-account)) auth-type u20) (err "error creating sub-account"))
         (unwrap! (creates-sub-account "sub-account" auth-type u20 requested-session-key) (err "error creating sub-account") )
         (print "Creating new sub-account")

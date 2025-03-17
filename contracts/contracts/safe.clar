@@ -2,7 +2,7 @@
 ;; title: safe
 ;; version:
 ;; summary: An EOA w/ social recovery
-;; description:
+;; description: TODO
 
 ;; traits
 ;;

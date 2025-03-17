@@ -5,8 +5,6 @@ export async function GET() {
   return NextResponse.json({ message: "Hello, Next.js API!" });
 }
 
-let commands = [];
-
 export async function POST(req: Request) {
   // TODO Validate passkey
   const { signature } = await req.json();
@@ -19,7 +17,7 @@ export async function POST(req: Request) {
 
   const newUser = {
     id: "asd-new",
-    salt: "salty",
+    salt: new Uint8Array(32)
   };
 
   let transaction;
