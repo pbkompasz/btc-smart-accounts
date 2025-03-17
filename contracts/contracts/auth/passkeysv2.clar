@@ -126,8 +126,6 @@
 ;; private functions
 ;;
 ;; (defmethod ec-decode-point ((kind (eql :secp256r1)) octets)
-  ;; (case (aref octets 0)
-  ;;   ((2 3)
   ;;    ;; Compressed point
   ;;    (if (= (length octets) (1+ (/ +secp256r1-bits+ 8)))
   ;;        (let* ((x-bytes (subseq octets 1 (1+ (/ +secp256r1-bits+ 8))))
@@ -138,17 +136,7 @@
   ;;               (y (if (= (logand y 1) y-sign) y (- +secp256r1-p+ y))))
   ;;          (ec-make-point :secp256r1 :x x :y y))
   ;;        (error 'invalid-curve-point :kind 'secp256r1)))
-  ;;   ((4)
-  ;;    ;; Uncompressed point
-  ;;    (if (= (length octets) (1+ (/ +secp256r1-bits+ 4)))
-  ;;        (let* ((x-bytes (subseq octets 1 (1+ (/ +secp256r1-bits+ 8))))
-  ;;               (x (ec-decode-scalar :secp256r1 x-bytes))
-  ;;               (y-bytes (subseq octets (1+ (/ +secp256r1-bits+ 8))))
-  ;;               (y (ec-decode-scalar :secp256r1 y-bytes)))
-  ;;          (ec-make-point :secp256r1 :x x :y y))
-  ;;        (error 'invalid-curve-point :kind 'secp256r1)))
-  ;;   (t
-  ;;    (error 'invalid-curve-point :kind 'secp256r1))))
+
 (define-private ( ec-decode-point (octets (buff 40))) 
   (let ((first-byte (element-at? octets u0))) 
     (print first-byte) 
