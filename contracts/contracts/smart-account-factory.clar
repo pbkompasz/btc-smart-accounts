@@ -27,7 +27,7 @@
 
 ;; data maps
 ;;
-(define-map accounts (buff 65) { account-name : (string-ascii 40), address: principal })
+(define-map accounts (buff 33) { account-name : (string-ascii 40), address: principal })
 
 ;; public functions
 ;;
@@ -54,7 +54,7 @@
 ;; read only functions
 ;;
 
-(define-read-only (get-account (pub-key (buff 65))) (begin 
+(define-read-only (get-account (pub-key (buff 33))) (begin 
   (map-get? accounts pub-key)
 ))
 
