@@ -18,15 +18,18 @@
     "@mui/x-charts": "^7.27.1",
     "@stacks/connect": "^8.1.6",
     "@tailwindcss/postcss": "^4.0.12",
+    "axios": "^1.8.3",
     "postcss": "^8.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "secp256k1": "^5.0.1",
     "tailwindcss": "^4.0.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "@types/secp256k1": "^4.0.6",
     "@types/webappsec-credential-management": "^0.6.9",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",
