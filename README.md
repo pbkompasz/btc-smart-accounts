@@ -9,47 +9,58 @@ A smart contract managed with MetaMask Wallet
 
 ## Technical
 
-Users send UserOperation objects into a separate mempool.
-A special class of actor called bundlers package up a set of these objects into a transaction making a handleOps call to a special contract,
-and that transaction then gets included in a block.
+### Authentication
 
-### UserOperation
+Currently there is 1 authentication flow that is fully implemented with more planned including:
+- [X] Derive a private key from a passkey credential
+- [ ] Native passkey verification on-chain using P-256 verifier, see `contracts/contracts/auth/passkeysv2.clar`
+- [ ] Verify email authentication permissionlessly, see [here](https://docs.zk.email/architecture/on-chain)
+- [ ] Verify identity using your password, see [here](https://docs.self.xyz/technical-docs/architecture)
+- [ ] Verify identity using Aadhaar ID, see [here](https://documentation.anon-aadhaar.pse.dev/docs/proof)
 
-Data structure w/ following fields:  
-sender address The account making the operation  
-nonce uint256 Anti-replay parameter (see “Semi-abstracted Nonce Support” )  
-factory address account factory, only for new accounts  
-factoryData bytes data for account factory (only if account factory exists)  
-callData bytes The data to pass to the sender during the main execution call  
-callGasLimit uint256 The amount of gas to allocate the main execution call  
-verificationGasLimit uint256 The amount of gas to allocate for the verification step  
-preVerificationGas uint256 Extra gas to pay the bunder  
-maxFeePerGas uint256 Maximum fee per gas (similar to EIP-1559 max_fee_per_gas)  
-maxPriorityFeePerGas uint256 Maximum priority fee per gas (similar to EIP-1559 max_priority_fee_per_gas)  
-paymaster address Address of paymaster contract, (or empty, if account pays for itself)  
-paymasterVerificationGasLimit uint256 The amount of gas to allocate for the paymaster validation code  
-paymasterPostOpGasLimit uint256 The amount of gas to allocate for the paymaster post-operation code  
-paymasterData bytes Data for paymaster (only if paymaster exists)  
-signature bytes Data passed into the account to verify authorization
+## Directory structure
 
-### Sender
+- bundler
+  - The bundler submits the transactions on behalf of the user
+  - Extra features: pregenerate wallets,
+- contracts
+  - Contain the smart contracts, including: `smart-account.clar`, `smart-account-factory.clar`, `safe.clar`, `authenticate.clar` and `256-lib/*.clar`
+  - [WIP] A contarct to verify `secp256r1` signatures on-chain
+- frontend
+  - An interface to manage your accounts
+- sdk
+  - An sdk to implement the authentication and transactions
 
-### EntryPoint
+## How to run
 
-Contract that executes UserOperations
+In 3 different terminals run the following commands:
 
-sender address   
-nonce uint256   
-initCode bytes concatenation of factory address and factoryData (or empty)   
-callData bytes   
-accountGasLimits bytes32 concatenation of verificationGas (16 bytes) and callGas (16 bytes)   
-preVerificationGas uint256   
-gasFees bytes32 concatenation of maxPriorityFee (16 bytes) and maxFeePerGas (16 bytes)   
-paymasterAndData bytes concatenation of paymaster fields (or empty)   
-signature bytes
+``` bash
+# 1
+cd frontend
+yarn
+yarn run dev
 
-### Bundler
+# 2
+cd bundler
+./start-database.sh
+yarn
+yarn db:generate
+yarn run dev
 
-### Paymaster
+# 3, this might take longer
+cd contracts
+yarn
+yarn run dev
+```
 
-Pays for transaction instead of Sender
+<!-- TODO
+  1. Implement passkeys encryption/decryption and use secp256k1 to validate signature
+  2. Minimal account abstraction, maybe a simple NFT transfer example
+  3. Auth provider on the frontend: https://chatgpt.com/c/67d345c2-1424-8004-8f3c-d6f5cd2843de, https://react.dev/reference/react/useContext
+  4. Modal for authentication
+  5. Session for each sub-account
+  6. EOA w/ social recovery
+  7. Record video
+  8. (BONUS) Verify passkey on-chain
+ -->
