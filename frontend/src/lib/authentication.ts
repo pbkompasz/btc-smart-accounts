@@ -1,11 +1,7 @@
 // This is stored in a cookie
 // This can be a mnemonic
 
-export const createCredential = async () => {
-  const resp = await fetch("/authenticate/init");
-  const serializedResp = await resp.json();
-  const { challenge } = serializedResp;
-
+export const createCredential = async (challenge: Buffer) => {
   const publicKeyCredentialCreationOptions = {
     challenge: challenge.buffer,
     rp: {
@@ -32,20 +28,10 @@ export const createCredential = async () => {
     publicKey: publicKeyCredentialCreationOptions,
   });
 
-  if (!credential) return;
+  return credential;
 };
 
-export const getCredential = async () => {
-  let challenge = localStorage.getItem("challenge");
-  // Check if challenge is stored locally
-  if (!challenge) {
-    const resp = await fetch("/authenticate");
-    const serializedResp = await resp.json();
-    challenge = serializedResp.challenge as string;
-  }
-
-  // Otherwise fetch challenge from the bundler
-
+export const getCredential = async (challenge: Buffer) => {
   const publicKeyCredentialRequestOptions = {
     challenge: new Buffer(challenge),
     userVerification: "preferred" as UserVerificationRequirement,
@@ -55,4 +41,27 @@ export const getCredential = async () => {
   const credential = await navigator.credentials.get({
     publicKey: publicKeyCredentialRequestOptions,
   });
+
+  return credential;
+};
+
+export const derivePrivateKey = async (
+  challenge: Buffer,
+  credential?: CredentialType | null
+) => {
+
+  if (!credential) {
+    // Request signature using WebAuthn
+    credential = await createCredential(challenge);
+  }
+
+  if (!credential) return;
+
+  // Extract signed response
+  // @ts-expect-error
+  const signedData = new Uint8Array(credential.response.signature);
+
+  // Hash the signed data using SHA-256 to create a deterministic private key
+  const hashBuffer = await crypto.subtle.digest("SHA-256", signedData);
+  return new Uint8Array(hashBuffer);
 };

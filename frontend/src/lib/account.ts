@@ -1,6 +1,8 @@
 import secp256k1 from "secp256k1";
 import crypto from "crypto";
 import { Session } from "./session";
+import { sendRequestToBundler } from "./bundlerInterface";
+import { createCredential, derivePrivateKey } from "./authentication";
 
 type AccountSession = {};
 type AccountConfig = {};
@@ -34,9 +36,10 @@ export class SubAccount {
 }
 
 export class Account {
-  session: AccountSession | undefined;
   config: AccountConfig;
   private synced: boolean = false;
+  private inited: boolean = false;
+  private privateKey!: Uint8Array<ArrayBuffer>;
   subAccounts: Map<number, SubAccount> = new Map();
 
   constructor(config: AccountConfig) {
@@ -50,7 +53,26 @@ export class Account {
     this.synced = true;
   }
 
-  public async createSubAccount(type: SubAccountType, creationSignature: string): Promise<SubAccount> {
+  public async init() {
+    if (this.inited) return;
+    // Initiate the account creation process
+    // Request salt from bundler
+    const salt = await sendRequestToBundler("auth-init");
+    // Create credential
+    const credential = await createCredential(salt);
+    // Derive a private key
+    const privateKey = await derivePrivateKey(salt, credential); 
+
+    if (!privateKey) {
+      throw new Error("Cannot create private key");
+    }
+    this.privateKey = privateKey;
+  }
+
+  public async createSubAccount(
+    type: SubAccountType,
+    creationSignature: string
+  ): Promise<SubAccount> {
     if (!creationSignature) {
       signWithMainAccount("LET ME IN");
     }
@@ -94,6 +116,4 @@ export const signWithSubAccount = (
   return signature;
 };
 
-export const  signWithMainAccount = async (message: string) => {
-
-}
+export const signWithMainAccount = async (message: string) => {};

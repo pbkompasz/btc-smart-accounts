@@ -9,6 +9,7 @@ export async function POST(req: Request) {
   // TODO Validate passkey
   const { signature } = await req.json();
 
+
   const exists = false;
   const user = {
     id: "asd",
@@ -19,6 +20,8 @@ export async function POST(req: Request) {
     id: "asd-new",
     salt: new Uint8Array(32)
   };
+
+  window.crypto.getRandomValues(newUser.salt);
 
   let transaction;
   if (exists) {

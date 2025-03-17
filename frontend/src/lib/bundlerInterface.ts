@@ -9,9 +9,9 @@ const client = axios.create({
 
 export const sendRequestToBundler = async (
   type: "auth" | "auth-init" | "read" | "execute",
-  accountId: number,
-  transactionData: any[],
-  requrestedSessionKey: Buffer
+  accountId: number = -1,
+  transactionData?: any[],
+  requrestedSessionKey?: Buffer
 ) => {
   // Main account
 
@@ -38,6 +38,8 @@ export const sendRequestToBundler = async (
       return;
 
     case "execute":
+      if (!transactionData) return;
+
       if (accountId !== -1) {
         signature = signWithSubAccount(accountId, transactionData);
       } else {
