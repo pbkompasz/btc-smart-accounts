@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import Modal from "../reusable/Modal";
 import {
-  Button,
   Description,
   Field,
   Input,
@@ -12,6 +11,7 @@ import {
   TabPanel,
   TabPanels,
 } from "@headlessui/react";
+import { getCredential } from "../../lib/authentication";
 
 const UsernamePassword = () => {
   return (
@@ -41,70 +41,11 @@ const UsernamePassword = () => {
 };
 
 const Passkeys = () => {
-  async function signMessage(message: string) {
-    const challenge = new TextEncoder().encode(message);
-
-    const publicKeyCredentialRequestOptions = {
-      allowCredentials: [], // Leave empty to let the user select a passkey
-      challenge: challenge,
-      userVerification: "required" as UserVerificationRequirement,
-      timeout: 60000,
-    };
-
-    await navigator.credentials.create({
-      publicKey: {
-        challenge: new Uint8Array([0, 1, 2, 3, 4]),
-        rp: {
-          name: "Web",
-        },
-        user: {
-          id: new Uint8Array([2, 3, 4]),
-          name: "me@test.com",
-          displayName: "hyllo",
-        },
-        pubKeyCredParams: [
-          {
-            type: "public-key",
-            alg: -7,
-          },
-          {
-            type: "public-key",
-            alg: -8,
-          },
-          {
-            type: "public-key",
-            alg: -257,
-          },
-        ],
-      },
-    });
-
-    // try {
-    //   const credential = await navigator.credentials.get({
-    //     publicKey: publicKeyCredentialRequestOptions,
-    //   });
-
-    //   if (!credential) {
-    //     throw new Error("No credential received");
-    //   }
-
-    //   const authData = new Uint8Array(credential.response.authenticatorData);
-    //   const signature = new Uint8Array(credential.response.signature);
-    //   const clientDataJSON = new Uint8Array(credential.response.clientDataJSON);
-
-    //   console.log("Authenticator Data:", authData);
-    //   console.log("Signature:", signature);
-    //   console.log("Client Data JSON:", clientDataJSON);
-
-    //   return { authData, signature, clientDataJSON };
-    // } catch (error) {
-    //   console.error("Error signing message:", error);
-    // }
-  }
-
   return (
     <div className="flex flex-col items-center w-full">
-      <Button onClick={() => signMessage("LET ME IN")}>Sign in</Button>
+      <button className="text-white" onClick={() => getCredential()}>
+        Sign in
+      </button>
     </div>
   );
 };
@@ -120,7 +61,7 @@ const signInOptions = [
   },
 ];
 
-const ManageSessions = ({
+const SignIn = ({
   open,
   setOpen,
   option,
@@ -138,7 +79,10 @@ const ManageSessions = ({
               (sOption) => sOption.id === option
             )}
           >
-            <TabList className="flex gap-2">
+            <TabList
+              className="flex gap-2 p-2 m-2"
+              style={{ borderBottom: "solid 1px grey" }}
+            >
               {signInOptions.map((option) => (
                 <Tab className="text-white" key={option.title}>
                   {option.title}
@@ -160,4 +104,4 @@ const ManageSessions = ({
   );
 };
 
-export default ManageSessions;
+export default SignIn;
