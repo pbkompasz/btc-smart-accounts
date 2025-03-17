@@ -22,6 +22,9 @@
   },
   "dependencies": {
     "@prisma/client": "^5.14.0",
+    "@stacks/network": "^7.0.2",
+    "@stacks/transactions": "^7.0.5",
+    "@stacks/wallet-sdk": "^7.0.5",
     "@t3-oss/env-nextjs": "^0.10.1",
     "@tanstack/react-query": "^5.50.0",
     "@trpc/client": "^11.0.0-rc.446",
