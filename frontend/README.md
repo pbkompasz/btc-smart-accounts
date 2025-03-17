@@ -1,5 +1,13 @@
 # React + TypeScript + Vite
 
+This is the frontend for the account dashboard.
+Features:
+- "Sign up" to create a new account
+- "Log in"
+- Create new sub-accounts
+- Create temporary/virtual accounts
+- Manage sessions
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

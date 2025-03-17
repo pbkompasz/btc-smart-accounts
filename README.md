@@ -9,6 +9,8 @@ A smart contract managed with MetaMask Wallet
 
 ## Technical
 
+![Alt text](images/auth-flow.png)
+
 ### Authentication
 
 Currently there is 1 authentication flow that is fully implemented with more planned including:
