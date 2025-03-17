@@ -1,20 +1,78 @@
-# btc-smart-accounts
+# BTC Access
 
-A simplified version of ERC4337.
+## Overview
 
-## Goals
+Our goal with BTC Access is to create an easy and secure way to manage assets and interact with the Bitcoin ecosystem. To achieve this, we introduce Account Abstraction, a new paradigm that replaces the traditional externally owned account (EOA) with a smart account-based wallet.
 
-A smart contract managed with a third-party provider
-A smart contract managed with MetaMask Wallet
+With account abstraction, users can interact with any cryptographic signature scheme and customize their wallets in various ways.
 
-## Technical
+## Smart Accounts
+
+We propose Smart Accounts, which decompose the traditional wallet into three distinct parts:
+
+- Main Account – Handles transaction signing, authentication, and asset transfers between sub-accounts.
+- Sub-Accounts – Temporary accounts created for specific purposes, with limited assets.
+- Safe – A long-term storage account, accessible only via the Main Account.
+
+For authentication, we leverage passkeys and session keys:
+
+- Passkeys: The primary entry point into an account.
+- Session Keys: Linked to sub-accounts, enabling seamless transactions.
+  To confirm a transaction, a user can either:
+
+Sign the transaction with a passkey, or
+
+1. Use a session key to transmit authorization.
+2. This approach minimizes friction, making Bitcoin UX more intuitive and secure.
+
+## Developer Integration: 3 Simple Steps
+
+Integrating BTC Access into an application is straightforward:
+
+### 1. Wrap Your Application in a Provider
+
+```tsx
+<SmartAccountProvider>
+  <App />
+</SmartAccountProvider>
+```
+
+### 2. Inject the Authentication Modal
+
+```tsx
+<button onClick={() => setShowModal(true)}>Sign in</button>
+```
+
+### 3. Use Our Custom Hook to Submit a Transaction
+
+```tsx
+const [transfer, isSubmitted, isLoading, isSuccess, isError] = sendBTC(
+  RECEIVER_ADDRESS,
+  0.01
+);
+
+// Render UI based on transaction status
+
+{
+  !isSubmitted ? (
+    <button onClick={() => transfer()}>Send BTC</button>
+  ) : (
+    <>{isSuccess ? "Congrats! Transaction Successful." : "Processing..."}</>
+  );
+}
+```
+
+This approach ensures a seamless and developer-friendly experience while enhancing Bitcoin wallet security and usability.
+
+## Architecture
 
 ![Alt text](images/auth-flow.png)
 
 ### Authentication
 
 Currently there is 1 authentication flow that is fully implemented with more planned including:
-- [X] Derive a private key from a passkey credential
+
+- [x] Derive a private key from a passkey credential
 - [ ] Native passkey verification on-chain using P-256 verifier, see `contracts/contracts/auth/passkeysv2.clar`
 - [ ] Verify email authentication permissionlessly, see [here](https://docs.zk.email/architecture/on-chain)
 - [ ] Verify identity using your password, see [here](https://docs.self.xyz/technical-docs/architecture)
@@ -37,7 +95,7 @@ Currently there is 1 authentication flow that is fully implemented with more pla
 
 In 3 different terminals run the following commands:
 
-``` bash
+```bash
 # 1
 cd frontend
 yarn
