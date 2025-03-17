@@ -48,7 +48,8 @@ Integrating BTC Access into an application is straightforward:
 ```tsx
 const [transfer, isSubmitted, isLoading, isSuccess, isError] = sendBTC(
   RECEIVER_ADDRESS,
-  0.01
+  0.01,
+  account: "MAIN"// Or specify a sub-account e.g. "SHOPPING-1"
 );
 
 // Render UI based on transaction status
