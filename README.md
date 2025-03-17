@@ -69,7 +69,23 @@ This approach ensures a seamless and developer-friendly experience while enhanci
 
 ![Alt text](images/auth-flow.png)
 
-### Authentication
+## Roadmap
+
+| Features                      | Component Status  | Integration Status |
+| ----------------------------- | ----------------- | ------------------ |
+| Passkeys authentication (v1)  | ✅ Completed      | 🚧 In-development  |
+| Passkeys authentication (v2)  | 🚧 In-development | ❌ Not started     |
+| Account dashboard             | 🚧 In-development | 🚧 In-development  |
+| Bundler dashboard             | ❌ Not started    | ❌ Not started     |
+| Session keys                  | 🚧 In-development | 🚧 In-development  |
+| Various DIDs authentication   | ❌ Not started    | ❌ Not started     |
+| Frontend SDK                  | 🚧 In-development | ❌ Not started     |
+| Backend SDK                   | 🚧 In-development | ❌ Not started     |
+| Bundler as a deployed service | 🚧 In-development | ❌ Not started     |
+| Social recovery               | ❌ Not started    | ❌ Not started     |
+| The Safe                      | ❌ Not started    | ❌ Not started     |
+
+## Authentication
 
 Currently there is 1 authentication flow that is fully implemented with more planned including:
 
